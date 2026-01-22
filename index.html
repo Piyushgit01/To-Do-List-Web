@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</To-Do-List></title>
+    <link rel="shortcut icon" href="img/notes.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="todo-app">
+            <h2>To-Do List <img src="img/notes.png" alt="notebook-image"></h2>
+            <div class="row">
+                <input type="text" id="input-box" placeholder="Enter Your Task...">
+                <button>Add</button>
+            </div>
+            <ul id="list-container">
+                <!-- <li class="checked">Task1</li>
+                    <li>Task2</li>
+                    <li>Task3</li> -->
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    const inputBox = document.getElementById("input-box");  /* get the value from the input-box and store in (inputBox Variable) */
+    const listContainer = document.getElementById("list-container"); /* get the ul from the list-container and store in (ListConaitner Variable) */
+    const addBtn = document.querySelector("button"); /* target button */
+
+    addBtn.addEventListener("click", () => {  /* perfrom event when click on the button */
+        let li = document.createElement("li");  /* create empy list box */
+        li.innerHTML = inputBox.value; /* add user input value in creating list box */
+        listContainer.appendChild(li);  /* show list box value in ul */
+        let span = document.createElement("span");
+        span.innerHTML = "\u00d7";
+        li.appendChild(span);
+        inputBox.value = ""; /* after adding value show empty input feild */
+        savedata(); // call
+    })
+
+   
+    listContainer.addEventListener("click", (e) => {  /* add event when click of the list */
+        if (e.target.tagName === "LI") {     /* Condition if tagname is li (true), so target it */
+            e.target.classList.toggle("checked");  /* target and add class checked inside li */
+            savedata();
+        }
+        else if (e.target.tagName === "SPAN") {   /* Condition if tagname is span (true), so target it */
+            e.target.parentElement.remove();   /* target parent element of span and add remove class */
+            savedata(); // call
+        }
+    });
+
+    function savedata(){
+        localStorage.setItem("data", listContainer.innerHTML); /* store data in local storage */
+    }
+
+    function showtask(){
+        listContainer.innerHTML = localStorage.getItem("data"); /* give and show value (reshow) after closing windmow.  */
+    }
+    showtask();  // call 
+</script>
+
+</html>
